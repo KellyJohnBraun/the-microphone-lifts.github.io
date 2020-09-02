@@ -149,7 +149,7 @@ function setupSource() {
              stutterance = new SpeechSynthesisUtterance(`${homeTeamName} win ${homeScore} ${awayScore}`)
           }
         }
-        speechSynthesis.speak(stutterance);
+        if (stutterance) speechSynthesis.speak(stutterance);
         latestUpdate = voiceGame.lastUpdate;
       }
     }
