@@ -126,13 +126,30 @@ function setupSource() {
     const preferredVoice = voices.find((v) => document.querySelector('.voice-selector').value === v.name);
     if (trackedName){
       const voiceGame = schedule.find((g) => g.awayTeamNickname === trackedName || g.homeTeamNickname === trackedName);
-      const { lastUpdate } = voiceGame;
+      const { lastUpdate, awayScore, awayTeamName, homeScore, homeTeamName} = voiceGame;
       if (lastUpdate && latestUpdate !== lastUpdate) {
         let utterance = new SpeechSynthesisUtterance(voiceGame.lastUpdate)
         if (preferredVoice) {
           utterance.voice = preferredVoice;
         }
         speechSynthesis.speak(utterance);
+        let stutterance;
+        if (utterance.text.includes('Bottom of') || utterance.text.includes('Top of')){
+          if (awayScore === homeScore){
+            stutterance = new SpeechSynthesisUtterance(`Score is tied ${awayScore} ${homeScore}`)
+          } else if (awayScore > homeScore){
+             stutterance = new SpeechSynthesisUtterance(`${awayTeamName} lead ${awayScore} ${homeScore}`)
+          } else {
+             stutterance = new SpeechSynthesisUtterance(`${homeTeamName} lead ${homeScore} ${awayScore}`)
+          }
+        } else if (utterance.text.includes('Game over.')){
+          if (awayScore > homeScore){
+             stutterance = new SpeechSynthesisUtterance(`${awayTeamName} win the game ${awayScore} ${homeScore}`)
+          } else {
+             stutterance = new SpeechSynthesisUtterance(`${homeTeamName} wins the game ${homeScore} ${awayScore}`)
+          }
+        }
+        speechSynthesis.speak(stutterance);
         latestUpdate = voiceGame.lastUpdate;
       }
     }
