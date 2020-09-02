@@ -128,7 +128,11 @@ function setupSource() {
       const voiceGame = schedule.find((g) => g.awayTeamNickname === trackedName || g.homeTeamNickname === trackedName);
       const { lastUpdate, awayScore, awayTeamName, homeScore, homeTeamName, halfInningOuts, baserunnerCount} = voiceGame;
       if (lastUpdate && latestUpdate !== lastUpdate) {
-        let utterance = new SpeechSynthesisUtterance(voiceGame.lastUpdate)
+        const phoneticInning = /(?<=^(Top|Bottom) of )\d+/;
+        const phoneticCountMunge = /(?<=\d)-(?=\d$)/;
+        const phoneticZero = /(?<!\d)0/g;
+        const phoneticUpdate = voiceGame.lastUpdate.replace(phoneticInning, 'the ' + ordinal(voiceGame.inning + 1)).replace(phoneticCountMunge, ' and ').replace(phoneticZero, 'O')
+        let utterance = new SpeechSynthesisUtterance(phoneticUpdate)
         if (preferredVoice) {
           utterance.voice = preferredVoice;
         }
