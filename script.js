@@ -151,7 +151,12 @@ function setupSource() {
         } else if (utterance.text.includes('batting for')){
           stutterance = new SpeechSynthesisUtterance(`${halfInningOuts} out ${baserunnerCount} on base`)
         }
-        if (stutterance) speechSynthesis.speak(stutterance);
+        if (stutterance){
+          if (preferredVoice) {
+            stutterance.voice = preferredVoice;
+          }
+          speechSynthesis.speak(stutterance);
+        } 
         latestUpdate = voiceGame.lastUpdate;
       }
     }
