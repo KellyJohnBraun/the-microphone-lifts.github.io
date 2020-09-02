@@ -144,9 +144,9 @@ function setupSource() {
           }
         } else if (utterance.text.includes('Game over.')){
           if (awayScore > homeScore){
-             stutterance = new SpeechSynthesisUtterance(`${awayTeamName} win the game ${awayScore} ${homeScore}`)
+             stutterance = new SpeechSynthesisUtterance(`${awayTeamName} win ${awayScore} ${homeScore}`)
           } else {
-             stutterance = new SpeechSynthesisUtterance(`${homeTeamName} wins the game ${homeScore} ${awayScore}`)
+             stutterance = new SpeechSynthesisUtterance(`${homeTeamName} win ${homeScore} ${awayScore}`)
           }
         }
         speechSynthesis.speak(stutterance);
