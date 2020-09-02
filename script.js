@@ -126,7 +126,7 @@ function setupSource() {
     const preferredVoice = voices.find((v) => document.querySelector('.voice-selector').value === v.name);
     if (trackedName){
       const voiceGame = schedule.find((g) => g.awayTeamNickname === trackedName || g.homeTeamNickname === trackedName);
-      const { lastUpdate, awayScore, awayTeamName, homeScore, homeTeamName} = voiceGame;
+      const { lastUpdate, awayScore, awayTeamName, homeScore, homeTeamName, halfInningOuts, baserunnerCount} = voiceGame;
       if (lastUpdate && latestUpdate !== lastUpdate) {
         let utterance = new SpeechSynthesisUtterance(voiceGame.lastUpdate)
         if (preferredVoice) {
@@ -148,6 +148,8 @@ function setupSource() {
           } else {
              stutterance = new SpeechSynthesisUtterance(`${homeTeamName} win ${homeScore} ${awayScore}`)
           }
+        } else if (utterance.text.includes('batting for')){
+          stutterance = new SpeechSynthesisUtterance(`${halfInningOuts} out ${baserunnerCount} on base`)
         }
         if (stutterance) speechSynthesis.speak(stutterance);
         latestUpdate = voiceGame.lastUpdate;
