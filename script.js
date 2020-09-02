@@ -138,9 +138,9 @@ function setupSource() {
           if (awayScore === homeScore){
             stutterance = new SpeechSynthesisUtterance(`Score is tied ${awayScore} ${homeScore}`)
           } else if (awayScore > homeScore){
-             stutterance = new SpeechSynthesisUtterance(`${awayTeamName} lead ${awayScore} ${homeScore}`)
+             stutterance = new SpeechSynthesisUtterance(`${awayTeamName} leading ${awayScore} ${homeScore}`)
           } else {
-             stutterance = new SpeechSynthesisUtterance(`${homeTeamName} lead ${homeScore} ${awayScore}`)
+             stutterance = new SpeechSynthesisUtterance(`${homeTeamName} leading ${homeScore} ${awayScore}`)
           }
         } else if (utterance.text.includes('Game over.')){
           if (awayScore > homeScore){
